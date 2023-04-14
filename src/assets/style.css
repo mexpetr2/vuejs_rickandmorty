@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #0F172A;
+    color: white;
+}
+
+.logo{
+    margin-top: 2vh;
+}
+
+
+.filter-container{
+    background-color: #1E293B;
+    border-radius: 5px;
+    width: 85vw;
+}
+
+.option{
+    border: solid 1px black;
+    overflow: hidden;
+}
