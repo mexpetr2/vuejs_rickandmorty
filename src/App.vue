@@ -1,39 +1,59 @@
-<script setup>
+<script>
 import Filter from './components/Filter.vue'
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-import { watchEffect,computed } from 'vue';
+import Loading from './components/Loading.vue'
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { watchEffect, computed } from 'vue'
 
-const QUERY = gql`
-  query CHARACTERS {
-    characters {
-    results {
-      name
-      image
+export default {
+  components: {
+    Filter,
+    Loading
+  },
+  setup() {
+    const QUERY = gql`
+      query CHARACTERS {
+        characters {
+          results {
+            name
+            image
+            species
+            status
+            gender
+          }
+        }
+      }
+    `
+    // On récupuère les données grâce à UseQuery
+    const { result, loading, error } = useQuery(QUERY)
+    // // computed va nous servir à utliser les données et surtout cela va mettre à jour la constante lorsque la requête change
+    const allCharacters = computed(() => result.value?.characters.results ?? [])
+
+    //on va console.log à chaque fois que allCharacters cela fonctionne en symbiose avec computed
+    watchEffect(() => {
+      // console.log(allCharacters)
+    })
+
+    return {
+      result,
+      allCharacters,
+      loading,
+      error
     }
   }
-  }
-`;
-// On récupuère les données grâce à UseQuery
-const { result } = useQuery(QUERY);
-// computed va nous servir à utliser les données et surtout cela va mettre à jour la constante lorsque la requête change
-const allCharacters = computed(() => result.value?.characters.results ?? [])
-
-//on va console.log à chaque fois que allCharacters cela fonctionne en symbiose avec computed
-watchEffect(() => {
-  console.log(allCharacters);
 }
-
-)
 </script>
 
-
 <template>
-  <div class="logo"><img src="/logo.png" alt="logo" class="mx-auto"></div>
+  <div class="logo"><img src="/logo.png" alt="logo" class="mx-auto" /></div>
 
-  <Filter />
+  <div v-if="loading" class="flex items-center justify-center h-screen">
+    <!-- Button chargement Tailwind -->
+    <Loading />
+  </div>
+  <div v-else-if="result && result.characters">
+    <Filter :data="result.characters.results" />
+  </div>
 </template>
 
-
-<style scoped>
-</style>
+<style scoped></style>

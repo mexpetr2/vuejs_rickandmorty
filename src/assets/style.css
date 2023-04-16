@@ -23,7 +23,6 @@ body {
     width: 85vw;
 }
 
-.option{
-    border: solid 1px black;
-    overflow: hidden;
+.card{
+    background-color: #1E293B;
 }
