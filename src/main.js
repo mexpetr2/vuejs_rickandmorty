@@ -7,16 +7,15 @@ import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
-// HTTP connection to the API
+// Connexion HTTP vers notre API
 const httpLink = createHttpLink({
   // You should use an absolute URL here
   uri: 'https://rickandmortyapi.com/graphql'
 })
 
-// Cache implementation
 const cache = new InMemoryCache()
 
-// Create the apollo client
+// On créer le client Apollo
 const apolloClient = new ApolloClient({
   link: httpLink,
   cache
@@ -24,10 +23,10 @@ const apolloClient = new ApolloClient({
 
 const app = createApp({
   setup() {
+    // On va fournir à notre projet le client Apollo
     provide(DefaultApolloClient, apolloClient)
   },
   render: () => h(App)
 })
 
 app.mount('#app')
-// createApp(App).mount('#app')

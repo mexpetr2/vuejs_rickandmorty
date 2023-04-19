@@ -29,11 +29,6 @@ export default {
     // // computed va nous servir à utliser les données et surtout cela va mettre à jour la constante lorsque la requête change
     const allCharacters = computed(() => result.value?.characters.results ?? [])
 
-    //on va console.log à chaque fois que allCharacters cela fonctionne en symbiose avec computed
-    watchEffect(() => {
-      // console.log(allCharacters)
-    })
-
     return {
       result,
       allCharacters,
@@ -45,12 +40,13 @@ export default {
 </script>
 
 <template>
+  <!-- Si les données ne sont pas encore chargé alors on va afficher le component Loading -->
   <div v-if="loading" class="flex items-center justify-center h-screen">
-    <!-- Button chargement Tailwind -->
     <Loading />
   </div>
 
-  <div v-else-if="result && result.characters" class="w-4/5 mx-auto">
+  <!-- Lorsque les données sont chargé on affiche nos components principaux -->
+  <div v-else-if="result && result.characters" class="w-4/5 h-full mx-auto">
     <div class="mt-4"><img src="/logo.png" alt="logo" class="mx-auto" /></div>
     <Filter :data="result.characters.results" />
   </div>

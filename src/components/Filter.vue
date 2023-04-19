@@ -73,9 +73,9 @@ export default {
 <template>
   <div v-if="data">
     <h1 class="text-3xl font-bold mb-3">Characters</h1>
-    <div class="bg-color1 rounded">
-      <div class="flex flex-wrap">
-        <div class="gender w-2/5 ml-auto mr-6 mt-4">
+    <div class="bg-color1 rounded h-[550px]">
+      <div class="flex flex-wrap h-full">
+        <div class="gender w-2/5 ml-auto mr-6 mt-5">
           <h3 class="text-xl mb-3">Gender</h3>
           <!-- On va créer plusieurs input de type radio pour pouvoir séléctionné le genre on commence par créer un input all -->
           <div
@@ -118,7 +118,7 @@ export default {
             </div>
           </div>
         </div>
-        <div class="status w-2/5 mr-auto mt-4">
+        <div class="status w-2/5 mr-auto mt-5">
           <h3 class="text-xl mb-3">Status</h3>
 
           <div
@@ -160,7 +160,7 @@ export default {
             </div>
           </div>
         </div>
-        <div class="species width-species mx-auto">
+        <div class="species width-species mx-auto mb-5">
           <h3 class="text-xl mb-3">Species</h3>
           <div class="grid grid-cols-2 gap-x-7">
             <div
