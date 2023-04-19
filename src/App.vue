@@ -45,15 +45,13 @@ export default {
 </script>
 
 <template>
-  <div class="logo"><img src="/logo.png" alt="logo" class="mx-auto" /></div>
-
   <div v-if="loading" class="flex items-center justify-center h-screen">
     <!-- Button chargement Tailwind -->
     <Loading />
   </div>
-  <div v-else-if="result && result.characters">
+
+  <div v-else-if="result && result.characters" class="w-4/5 mx-auto">
+    <div class="mt-4"><img src="/logo.png" alt="logo" class="mx-auto" /></div>
     <Filter :data="result.characters.results" />
   </div>
 </template>
-
-<style scoped></style>

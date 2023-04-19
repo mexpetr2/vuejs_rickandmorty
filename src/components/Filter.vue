@@ -16,8 +16,16 @@ export default {
       limit: 10
     }
   },
+  methods: {
+    resetLimit() {
+      this.limit = 10
+    },
+    Capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.substring(1)
+    }
+  },
   computed: {
-    // On créer un tableau qui contiendra toute les espèces possible
+    // On créer un tableau qui contiendra toute les espèces possible sans doublons
     species() {
       return this.data
         .map((el) => {
@@ -56,132 +64,168 @@ export default {
       if (this.selectedGender !== 'all') {
         characters = characters.filter((character) => character.gender === this.selectedGender)
       }
-      // On retourne le tableau par seulement par rapport au nombre d'élément qu'on veut afficher
-      return characters.slice(0, this.limit)
+      return characters
     }
   }
 }
 </script>
 
 <template>
-  <div v-if="data" class="container mx-auto">
-    <h1 class="text-3xl font-bold">Characters</h1>
-    <div class="filter-container">
-      <div class="gender">
-        <h3 class="text-xl">Gender</h3>
-        <!-- On va créer plusieurs input de type radio pour pouvoir séléctionné le genre on commence par créer un input all -->
-        <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
-          <input
-            v-model="selectedGender"
-            id="bordered-radio-2"
-            type="radio"
-            value="all"
-            name="selectedGender"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            for="bordered-radio-2"
-            class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >All</label
+  <div v-if="data">
+    <h1 class="text-3xl font-bold mb-3">Characters</h1>
+    <div class="bg-color1 rounded">
+      <div class="flex flex-wrap">
+        <div class="gender w-2/5 ml-auto mr-6 mt-4">
+          <h3 class="text-xl mb-3">Gender</h3>
+          <!-- On va créer plusieurs input de type radio pour pouvoir séléctionné le genre on commence par créer un input all -->
+          <div
+            class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
           >
-        </div>
-        <!-- Ici on va boucler pour afficher un input radio par rapport à tout les genres que l'on a -->
-        <div v-for="gender in genders">
-          <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
             <input
               v-model="selectedGender"
-              id="bordered-radio-2"
+              id="selectedGender"
               type="radio"
-              :value="gender"
+              value="all"
               name="selectedGender"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              @click="resetLimit()"
+              class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
             />
             <label
-              for="bordered-radio-2"
-              class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >{{ gender }}</label
+              for="selectedGender"
+              class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+              >All</label
             >
           </div>
+          <!-- Ici on va boucler pour afficher un input radio par rapport à tout les genres que l'on a -->
+          <div v-for="(gender, genderIndex) in genders">
+            <div
+              class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
+            >
+              <input
+                v-model="selectedGender"
+                :id="'selectedGender' + genderIndex"
+                type="radio"
+                :value="gender"
+                name="selectedGender"
+                @click="resetLimit()"
+                class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
+              />
+              <label
+                :for="'selectedGender' + genderIndex"
+                class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+                >{{ Capitalize(gender) }}</label
+              >
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="status">
-        <h3 class="text-xl">Status</h3>
+        <div class="status w-2/5 mr-auto mt-4">
+          <h3 class="text-xl mb-3">Status</h3>
 
-        <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
-          <input
-            v-model="selectedStatus"
-            id="bordered-radio-2"
-            type="radio"
-            value="all"
-            name="selectedStatus"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            for="bordered-radio-2"
-            class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >All</label
+          <div
+            class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
           >
-        </div>
-        <div v-for="statu in status">
-          <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
             <input
               v-model="selectedStatus"
-              id="bordered-radio-2"
+              id="selectedStatus"
               type="radio"
-              :value="statu"
+              value="all"
               name="selectedStatus"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              @click="resetLimit()"
+              class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
             />
             <label
-              for="bordered-radio-2"
-              class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >{{ statu }}</label
+              for="selectedStatus"
+              class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+              >All</label
             >
           </div>
-        </div>
-      </div>
-      <div class="species">
-        <h3 class="text-xl">Species</h3>
-
-        <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
-          <input
-            v-model="selectedSpecies"
-            id="bordered-radio-2"
-            type="radio"
-            value="all"
-            name="selectedSpecies"
-            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            for="bordered-radio-2"
-            class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >All</label
-          >
-        </div>
-        <div v-for="specie in species">
-          <div class="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
-            <input
-              v-model="selectedSpecies"
-              id="bordered-radio-2"
-              type="radio"
-              :value="specie"
-              name="selectedSpecies"
-              class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label
-              for="bordered-radio-2"
-              class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >{{ specie }}</label
+          <div v-for="(statu, statusIndex) in status">
+            <div
+              class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
             >
+              <input
+                v-model="selectedStatus"
+                :id="'selectedSatus' + statusIndex"
+                type="radio"
+                :value="statu"
+                name="selectedStatus"
+                @click="resetLimit()"
+                class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
+              />
+              <label
+                :for="'selectedSatus' + statusIndex"
+                class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+                >{{ Capitalize(statu) }}</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="species width-species mx-auto">
+          <h3 class="text-xl mb-3">Species</h3>
+          <div class="grid grid-cols-2 gap-x-7">
+            <div
+              class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
+            >
+              <input
+                v-model="selectedSpecies"
+                id="selectedSpecies"
+                type="radio"
+                value="all"
+                name="selectedSpecies"
+                @click="resetLimit()"
+                class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
+              />
+              <label
+                for="selectedSpecies"
+                class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+                >All</label
+              >
+            </div>
+            <div v-for="(specie, speciesIndex) in species">
+              <div
+                class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
+              >
+                <input
+                  v-model="selectedSpecies"
+                  :id="'selectedSpecies' + speciesIndex"
+                  type="radio"
+                  :value="specie"
+                  name="selectedSpecies"
+                  @click="resetLimit()"
+                  class="w-4 h-4 mr-4 appearance-none cursor-pointer focus:ring-0 bg-color4 rounded-full hover:bg-white hover:border-4 hover:border-color2 checked:bg-white checked:border-4 checked:border-color2"
+                />
+                <label
+                  :for="'selectedSpecies' + speciesIndex"
+                  class="w-full py-4 ml-2 cursor-pointer text-sm font-medium text-gray-30"
+                  >{{ Capitalize(specie) }}</label
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div v-for="character in characters" class="card-container">
-    <Card :character="character" />
+    <div
+      v-if="characters.length <= 0"
+      class="text-center mt-5 mb-5 bg-color1 rounded pt-4 pb-4 w-8/12 mx-auto"
+    >
+      <p>Aucun personnages ne correspondent à ces critères</p>
+    </div>
+    <div
+      v-else-if="characters.length > 0"
+      class="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-3 py-6 gap-x-3"
+    >
+      <!-- On slice pour n'afficher qu'une partie des personnages pour l'instant -->
+      <div v-for="character in characters.slice(0, limit)">
+        <Card :character="character" />
+      </div>
+    </div>
   </div>
-
-  <button @click="limit += 10">Show more</button>
+  <!-- On n'affiche le bouton que lorsqu'il reste encore des personnages à afficher -->
+  <div class="w-full text-center mb-4" v-if="limit + 1 <= characters.length">
+    <button class="ml-auto rounded text-color2 bg-color3 px-3" @click="limit += 10">
+      Show more
+    </button>
+  </div>
 </template>
