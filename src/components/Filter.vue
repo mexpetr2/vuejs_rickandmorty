@@ -214,7 +214,7 @@ export default {
     </div>
     <div
       v-else-if="characters.length > 0"
-      class="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-3 py-6 gap-x-3"
+      class="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-3 py-6 gap-x-2"
     >
       <!-- On slice pour n'afficher qu'une partie des personnages pour l'instant -->
       <div v-for="character in characters.slice(0, limit)">

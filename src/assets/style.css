@@ -16,6 +16,10 @@ body {
   width: calc(80% + 24px);
 }
 
+.type {
+  font-size: 70%;
+}
+
 @layer components {
   body {
     @apply bg-color0;

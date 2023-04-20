@@ -1,6 +1,6 @@
-# rick_morty_v0
+# rick_morty
 
-This template should help get you started developing with Vue 3 in Vite.
+Live preview : https://clement-rickmorty.netlify.app
 
 ## Recommended IDE Setup
 
