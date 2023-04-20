@@ -12,7 +12,7 @@ export default {
       selectedSpecies: 'all',
       selectedStatus: 'all',
       selectedGender: 'all',
-      //Limite du nombre de card afficher par défaut
+      //Limite du nombre de cartes affichées par défaut
       limit: 10
     }
   },
@@ -25,7 +25,7 @@ export default {
     }
   },
   computed: {
-    // On créer un tableau qui contiendra toute les espèces possible sans doublons
+    // On crée un tableau qui contiendra toutes les espèces possibles sans doublons
     species() {
       return this.data
         .map((el) => {
@@ -33,7 +33,7 @@ export default {
         })
         .filter((valeur, index, tableau) => tableau.indexOf(valeur) === index)
     },
-    // Pareil ici pour les genre
+    // Pareil ici pour les genres
     genders() {
       return this.data
         .map((el) => {
@@ -52,7 +52,7 @@ export default {
     characters() {
       let characters = this.data
 
-      //On va filtrer notre tableau par rapport à l'espèce séléctionné, si c'est all alors on ne va pas filtrer le tableau
+      //On va filtrer notre tableau par rapport à l'espèce sélectionnée. Si c'est all, alors on ne va pas filtrer le tableau
       if (this.selectedSpecies !== 'all') {
         characters = characters.filter((character) => character.species === this.selectedSpecies)
       }
@@ -77,7 +77,7 @@ export default {
       <div class="flex flex-wrap h-full">
         <div class="gender w-2/5 ml-auto mr-6 mt-5">
           <h3 class="text-xl mb-3">Gender</h3>
-          <!-- On va créer plusieurs input de type radio pour pouvoir séléctionné le genre on commence par créer un input all -->
+          <!-- On va créer plusieurs inputs de type radio pour pouvoir sélectionner le genre. On commence par créer un input All -->
           <div
             class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
           >
@@ -96,7 +96,7 @@ export default {
               >All</label
             >
           </div>
-          <!-- Ici on va boucler pour afficher un input radio par rapport à tout les genres que l'on a -->
+          <!-- On va parcourir le tableau des genres pour créer un input de type radio pour chaque valeur. -->
           <div v-for="(gender, genderIndex) in genders">
             <div
               class="mb-2 flex flex-row-reverse cursor-pointer items-center pl-4 border-2 border-color4 rounded hover:border-color2 hover:bg-color2/10 selected"
@@ -206,23 +206,26 @@ export default {
       </div>
     </div>
 
+    <!-- Si aucun des personnages ne correspond au critère choisi, alors on affiche cette alerte. -->
     <div
       v-if="characters.length <= 0"
       class="text-center mt-5 mb-5 bg-color1 rounded pt-4 pb-4 w-8/12 mx-auto"
     >
       <p>Aucun personnages ne correspondent à ces critères</p>
     </div>
+
+    <!-- Si des personnages correspondent au critère choisi, on les affiche -->
     <div
       v-else-if="characters.length > 0"
-      class="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-3 py-6 gap-x-2"
+      class="grid sm:grid-cols-2 lg:grid-cols-4 gap-y-3 py-6 gap-x-4"
     >
-      <!-- On slice pour n'afficher qu'une partie des personnages pour l'instant -->
+      <!-- On utilise la méthode slice pour n'afficher qu'une partie des personnages pour l'instant -->
       <div v-for="character in characters.slice(0, limit)">
         <Card :character="character" />
       </div>
     </div>
   </div>
-  <!-- On n'affiche le bouton que lorsqu'il reste encore des personnages à afficher -->
+  <!-- On affiche le bouton uniquement lorsqu'il reste encore des personnages à afficher -->
   <div class="w-full text-center mb-4" v-if="limit + 1 <= characters.length">
     <button class="ml-auto rounded text-color2 bg-color3 px-3" @click="limit += 10">
       Show more

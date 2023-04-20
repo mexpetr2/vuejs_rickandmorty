@@ -9,7 +9,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 
 // Connexion HTTP vers notre API
 const httpLink = createHttpLink({
-  // You should use an absolute URL here
   uri: 'https://rickandmortyapi.com/graphql'
 })
 

@@ -5,6 +5,7 @@ export default {
   },
   methods: {
     Capitalize(string) {
+      //On récupère la méthode de son parent, donc du composant Filter
       return this.$parent.Capitalize(string)
     }
   }

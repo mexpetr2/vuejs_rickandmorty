@@ -3,7 +3,7 @@ import Filter from './components/Filter.vue'
 import Loading from './components/Loading.vue'
 import { useQuery } from '@vue/apollo-composable'
 import gql from 'graphql-tag'
-import { watchEffect, computed } from 'vue'
+import { computed } from 'vue'
 
 export default {
   components: {
@@ -40,12 +40,12 @@ export default {
 </script>
 
 <template>
-  <!-- Si les données ne sont pas encore chargé alors on va afficher le component Loading -->
+  <!-- Si les données ne sont pas encore chargées, alors nous allons afficher le composant Loading -->
   <div v-if="loading" class="flex items-center justify-center h-screen">
     <Loading />
   </div>
 
-  <!-- Lorsque les données sont chargé on affiche nos components principaux -->
+  <!-- Lorsque les données sont chargées, nous affichons nos composants principaux -->
   <div v-else-if="result && result.characters" class="w-4/5 h-full mx-auto">
     <div class="mt-4"><img src="/logo.png" alt="logo" class="mx-auto" /></div>
     <Filter :data="result.characters.results" />
